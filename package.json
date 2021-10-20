@@ -1,0 +1,36 @@
+{
+  "name": "cli-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js localhost 4040",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vomarchuk/CLI-application.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vomarchuk/CLI-application/issues"
+  },
+  "homepage": "https://github.com/vomarchuk/CLI-application#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "8.2.0",
+    "nodemon": "^2.0.13"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.2.3",
+    "prettier": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,cjs,mjs}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
+}
