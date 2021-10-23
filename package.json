@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon index.js localhost 4040",
-    "prepare": "husky install"
+    "start:dev": "nodemon index.js localhost 4040"
   },
   "repository": {
     "type": "git",
