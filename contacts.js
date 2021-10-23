@@ -1,10 +1,10 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-const CONTACTS = './db/contacts.json';
+const contactsPath = path.join(__dirname, './db/contacts.json');
 
 const readData = async () => {
-  const result = await fs.readFile(path.join(__dirname, CONTACTS), 'utf8');
+  const result = await fs.readFile(contactsPath, 'utf8');
   return JSON.parse(result);
 };
 
@@ -31,10 +31,7 @@ const removeContact = async contactId => {
     return contact;
   });
 
-  await fs.writeFile(
-    path.join(__dirname, CONTACTS),
-    JSON.stringify(result, null, 2),
-  );
+  await fs.writeFile(contactsPath, JSON.stringify(result, null, 2));
   return result;
 };
 
@@ -52,10 +49,7 @@ const addContact = async (name, email, phone) => {
     phone,
   };
   contacts.push(newContact);
-  await fs.writeFile(
-    path.join(__dirname, CONTACTS),
-    JSON.stringify(contacts, null, 2),
-  );
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return newContact;
 };
 
