@@ -28,14 +28,13 @@ console.log(argv);
         break;
 
       case 'get':
-        getContactById(id).then(contact => {
-          if (contact) {
-            console.log(chalk.blueBright('Contact found!'));
-            console.table(contact);
-            return;
-          }
-        });
-
+        const contactById = await getContactById(id);
+        if (contactById) {
+          console.log(chalk.blueBright('Contact found!'));
+          console.table(contactById);
+          return;
+        }
+        console.log(chalk.redBright('Contact not found!'));
         break;
 
       case 'add':
@@ -44,13 +43,12 @@ console.log(argv);
         break;
 
       case 'remove':
-        removeContact(id).then(contact => {
-          if (contact) {
-            console.log(chalk.blueBright('Contact remove!'));
-            console.table(contact);
-            return;
-          }
-        });
+        const contact = await removeContact(id);
+        if (contact) {
+          console.log(chalk.blueBright('Contact remove!'));
+          console.table(contact);
+          return;
+        }
 
         break;
 

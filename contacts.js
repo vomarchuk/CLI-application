@@ -1,5 +1,6 @@
 const fs = require('fs/promises');
 const path = require('path');
+const { uuid } = require('uuidv4');
 
 const contactsPath = path.join(__dirname, './db/contacts.json');
 
@@ -13,10 +14,8 @@ const listContacts = async () => {
 };
 
 const getContactById = async contactId => {
-  const id = Number(contactId);
-
   const contacts = await readData();
-  const [result] = contacts.filter(contact => contact.id === id);
+  const [result] = contacts.filter(contact => contact.id === contactId);
   return result;
 };
 
@@ -25,10 +24,8 @@ const removeContact = async contactId => {
   console.log(id);
   const contacts = await readData();
   const result = contacts.filter(contact => {
-    if (contact.id === id) {
-      return contact.id !== id;
-    }
-    return contact;
+    // console.log(contact.id !== id);
+    if (contact.id !== id) return contact;
   });
 
   await fs.writeFile(contactsPath, JSON.stringify(result, null, 2));
@@ -37,13 +34,9 @@ const removeContact = async contactId => {
 
 const addContact = async (name, email, phone) => {
   const contacts = await readData();
-  const newId = contacts.reduce((acc, contact) => {
-    if (acc < contact.id) acc = contact.id;
-    return acc;
-  }, 0);
 
   const newContact = {
-    id: newId + 1,
+    id: uuid(),
     name,
     email,
     phone,
