@@ -23,33 +23,20 @@ console.log(argv);
   try {
     switch (action) {
       case 'list':
-        const contacts = await listContacts();
-        console.table(contacts);
+        listContacts();
         break;
 
       case 'get':
-        const contactById = await getContactById(id);
-        if (contactById) {
-          console.log(chalk.blueBright('Contact found!'));
-          console.table(contactById);
-          return;
-        }
-        console.log(chalk.redBright('Contact not found!'));
+        getContactById(id);
         break;
 
       case 'add':
-        await addContact(name, email, phone);
+        addContact(name, email, phone);
         console.log(chalk.green('Add new contact'));
         break;
 
       case 'remove':
-        const contact = await removeContact(id);
-        if (contact) {
-          console.log(chalk.blueBright('Contact remove!'));
-          console.table(contact);
-          return;
-        }
-
+        removeContact(id);
         break;
 
       default:

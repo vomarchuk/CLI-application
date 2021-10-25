@@ -1,6 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
-const { uuid } = require('uuidv4');
+const chalk = require('chalk');
+
+const { v4: uuidv4 } = require('uuid');
 
 const contactsPath = path.join(__dirname, './db/contacts.json');
 
@@ -10,33 +12,42 @@ const readData = async () => {
 };
 
 const listContacts = async () => {
-  return await readData();
+  const contacts = await readData();
+  console.table(contacts);
 };
 
 const getContactById = async contactId => {
   const contacts = await readData();
-  const [result] = contacts.filter(contact => contact.id === contactId);
-  return result;
+  const [result] = contacts.filter(
+    ({ id }) => Number(id) === Number(contactId),
+  );
+  if (result) {
+    return console.table(result);
+  }
+  console.log(chalk.redBright('Contact not found!'));
 };
 
 const removeContact = async contactId => {
-  const id = Number(contactId);
-  console.log(id);
   const contacts = await readData();
-  const result = contacts.filter(contact => {
-    // console.log(contact.id !== id);
-    if (contact.id !== id) return contact;
-  });
-
-  await fs.writeFile(contactsPath, JSON.stringify(result, null, 2));
-  return result;
+  const searchContactById = contacts.find(
+    ({ id }) => Number(id) === Number(contactId),
+  );
+  if (searchContactById) {
+    const removeContact = contacts.filter(
+      ({ id }) => Number(id) !== Number(contactId),
+    );
+    await fs.writeFile(contactsPath, JSON.stringify(removeContact, null, 2));
+    console.log(chalk.green('Сontact successfully deleted'));
+    return removeContact;
+  }
+  console.log(chalk.redBright('Contact not found!'));
 };
 
 const addContact = async (name, email, phone) => {
   const contacts = await readData();
 
   const newContact = {
-    id: uuid(),
+    id: uuidv4(),
     name,
     email,
     phone,
